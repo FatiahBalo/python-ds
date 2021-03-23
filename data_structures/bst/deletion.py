@@ -28,6 +28,12 @@ def min_value_node(root):
         curr = curr.left
     return curr
 
+def max_value_node(root):
+    curr = root
+    while curr.right:
+        curr = curr.right
+    return curr
+
 
 def delete(root, val):
     if not root:
@@ -56,6 +62,53 @@ def delete(root, val):
         root.right = delete(root.right, temp.val)
 
     return root
+
+#Itiretive delete method while assuming no duplicates allowed
+def delete(root, val):
+    curr = root
+
+    while curr.val != val:
+        prev = curr
+        if val < curr.val:
+            curr = curr.left
+            
+        else:
+            curr = curr.right
+
+    if curr not None:
+        if curr.left is None: 
+            oneChild(curr, prev, curr.right)
+
+        elif curr.right is None:
+            oneChild(curr, prev, curr.left)
+        
+        else:
+            twoChdren(curr)
+
+#method to get the parent node
+def parent_node(root):
+    curr = root
+    while curr.left:
+        prev = curr
+        curr = curr.left
+    return prev
+
+#method to delete when node has one child
+def oneChild(curr, prev, child):
+    if prev:
+        if curr == prev.left:
+            prev.left = child
+        else:
+            prev.right = child
+   
+#method to delete when node has 2 children
+def twoChdren(curr):
+    temp = min_value_node(curr.right)
+    prnt = parent_node(curr.right)
+    curr.val = temp.val
+    oneChild(temp,prnt ,temp.right)
+
+
 
 
 
